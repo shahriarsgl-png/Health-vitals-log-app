@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>Edit Reading</title></head>
+<body style="font-family: Calibri, Arial, sans-serif; max-width: 500px; margin: 30px auto;">
+  <h2>Edit Reading #{{ r.id }}</h2>
+  <form method="post">
+    <p><input name="patient_name" value="{{ r.patient_name }}" required></p>
+    <p><input name="heart_rate" type="number" value="{{ r.heart_rate }}" required></p>
+    <p><input name="temperature" type="number" step="0.1" value="{{ r.temperature }}" required></p>
+    <p><input name="spo2" type="number" value="{{ r.spo2 }}" required></p>
+    <button type="submit" style="background:#1C7293;color:white;border:none;padding:7px 14px;">Save</button>
+    <a href="/">Cancel</a>
+  </form>
+</body>
+</html>

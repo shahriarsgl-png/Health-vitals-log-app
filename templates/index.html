@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Health Vitals Log</title>
+  <style>
+    body { font-family: Calibri, Arial, sans-serif; max-width: 900px; margin: 30px auto; }
+    h1 { color: #0D3B5E; }
+    form.add { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    input { padding: 6px; }
+    button { background: #1C7293; color: white; border: none; padding: 7px 14px; cursor: pointer; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background: #0D3B5E; color: white; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    .alert { background: #ffe0e0; }
+    .note { color: #555; font-size: 0.9em; margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Health Vitals Log</h1>
+  <form class="add" action="/add" method="post">
+    <input name="patient_name" placeholder="Patient name" required>
+    <input name="heart_rate" type="number" placeholder="Heart rate (bpm)" required>
+    <input name="temperature" type="number" step="0.1" placeholder="Temp (°C)" required>
+    <input name="spo2" type="number" placeholder="SpO2 (%)" required>
+    <button type="submit">Add Reading</button>
+  </form>
+
+  <table>
+    <tr><th>ID</th><th>Patient</th><th>HR (bpm)</th><th>Temp (°C)</th><th>SpO2 (%)</th><th>Recorded (UTC)</th><th>Actions</th></tr>
+    {% for r in readings %}
+    <tr class="{{ 'alert' if r.heart_rate > 100 or r.spo2 < 94 or r.temperature > 38 else '' }}">
+      <td>{{ r.id }}</td>
+      <td>{{ r.patient_name }}</td>
+      <td>{{ r.heart_rate }}</td>
+      <td>{{ r.temperature }}</td>
+      <td>{{ r.spo2 }}</td>
+      <td>{{ r.recorded_at.strftime('%Y-%m-%d %H:%M') }}</td>
+      <td>
+        <a href="/edit/{{ r.id }}">Edit</a>
+        <form action="/delete/{{ r.id }}" method="post" style="display:inline">
+          <button type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <p class="note">Rows highlighted in red: heart rate &gt; 100, SpO2 &lt; 94, or temperature &gt; 38.</p>
+</body>
+</html>
