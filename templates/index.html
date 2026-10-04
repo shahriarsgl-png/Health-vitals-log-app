@@ -17,6 +17,7 @@
 </head>
 <body>
   <h1>Health Vitals Log</h1>
+  <p style="color:#1C7293;"><strong>Name:</strong> {{ student_name }} &nbsp;|&nbsp; <strong>Student ID:</strong> {{ student_id }}</p>
   <form class="add" action="/add" method="post">
     <input name="patient_name" placeholder="Patient name" required>
     <input name="heart_rate" type="number" placeholder="Heart rate (bpm)" required>

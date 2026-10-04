@@ -15,6 +15,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = db_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
+# Student details, set as environment variables in Render (STUDENT_NAME, STUDENT_ID)
+STUDENT_NAME = os.environ.get("STUDENT_NAME", "Student Name")
+STUDENT_ID = os.environ.get("STUDENT_ID", "Student ID")
+
 
 class Reading(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,7 +38,12 @@ with app.app_context():
 @app.route("/")
 def index():
     readings = Reading.query.order_by(Reading.recorded_at.desc()).all()
-    return render_template("index.html", readings=readings)
+    return render_template(
+        "index.html",
+        readings=readings,
+        student_name=STUDENT_NAME,
+        student_id=STUDENT_ID,
+    )
 
 
 @app.route("/add", methods=["POST"])
